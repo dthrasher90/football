@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Football RPG</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press+Start+2P" ></script>
+
+    <link rel="stylesheet" href="public/main.css">
+
+                    <style>
+                        body {
+                          font-family: 'Press Start 2P', cursive;
+                          font-size: 48px;
+                          color:white;
+                        }
+                    </style>
+
+</head>
+
+<body>
+<!-- <div class="preload">
+  testing testing
+</div> -->
+
+
+<script src="phaser.min.js"></script>
+    <script>
+
+
+
+
+
+            var wr1, wr2, wr3, wr4, football;
+            var game = new Phaser.Game(800, 600, Phaser.AUTO);
+            var GameActionState  = {
+               preload: function(){
+                  game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+                  game.load.spritesheet('player', 'public/assets/player2.png',61, 70, 16);
+                  game.load.spritesheet('player2', 'public/assets/player.png', 14, 20, 28);
+                  game.load.image('field', 'public/assets/footballfield.jpg');
+                  game.load.image('wr1', 'public/assets/reddot.png');
+                  game.load.image('wr2', 'public/assets/reddot.png');
+                  game.load.image('wr3', 'public/assets/reddot.png');
+                  game.load.image('wr4', 'public/assets/reddot.png');
+                  game.load.image('qb', 'public/assets/reddot.png');
+                  game.load.image('lt', 'public/assets/reddot.png');
+                  game.load.image('lg', 'public/assets/reddot.png');
+                  game.load.image('ct', 'public/assets/reddot.png');
+                  game.load.image('rg', 'public/assets/reddot.png');
+                  game.load.image('rt', 'public/assets/reddot.png');
+                  game.load.image('football','public/assets/football.png');
+                  game.load.image('button', 'public/assets/button.jpg');
+
+                },
+
+
+
+//================================HUD Graphics ===============================================================
+              create: function(wr1, football){
+               game.physics.startSystem(Phaser.Physics.ARCADE);
+                var homeScore= 0;
+                var awayScore =0;
+                    scoreTextHome = this.add.text(0.1, 0, 'Home: '+ homeScore, {font: '20px Press Start 2P',fill: '#ffffff' });
+                    scoreTextAway = game.add.text(0.1, 21, 'Away: ' + awayScore, {font: '20px Press Start 2P', fill: '#ffffff' });
+                    Time = this.game.add.text(310, 0, 'Time: 00:00', {font: '20px Press Start 2P', fill: '#ffffff' });
+                    DownLog = game.add.text(650, 0, '1 & 10 ',{font: '20px Press Start 2p', fill: '#ffffff' });
+                    GameLog= game.add.text(0, 400, 'Game Log',{font: '20px Press Start 2P', fill: '#cccc00' });
+                // game.physics.arcade.enable(wr1, wr2, wr3, wr4, football);
+
+                var scoreTextHome, scoreTextAway, Time, GameLog, DownLog;
+
+
+
+
+
+//================Images Loaded======================================================================
+
+                var field = this.game.add.button(15, 50, 'field');
+                field.scale.setTo(1.1);
+                field.anchor.setTo(0);
+
+                var wr1 = this.game.add.sprite(500, 200, 'wr1');
+                wr1.scale.setTo(0.3);
+
+                var wr2 = this.game.add.sprite(500,100, 'wr2');
+                wr2.scale.setTo(0.3);
+
+                var wr3 = this.game.add.sprite(500, 150, 'wr3');
+                wr3.scale.setTo(0.3);
+
+                var wr4 = this.game.add.sprite(500, 455, 'wr4');
+                wr4.scale.setTo(0.3);
+
+                // var qb = this.game.add.sprite(500, 300, 'qb');
+                // qb.scale.setTo(0.3);
+                //
+                // var lt = this.game.add.sprite(550, 100, 'lt');
+                // lt.scale.setTo(0.3);
+                //
+                // var lg = this.game.add.sprite(555, 100, 'lg');
+                // lg.scale.setTo(0.3);
+                //
+                // var ct = this.game.add.sprite(560, 100, 'ct');
+                // ct.scale.setTo(0.3);
+                //
+                // var rg = this.game.add.sprite(565, 100, 'rg');
+                // rg.scale.setTo(0.3);
+                //
+                // var rt = this.game.add.sprite(570, 100, 'rt');
+                // rt.scale.setTo(0.3);
+
+                var button = this.game.add.button(500, 400, 'button', movePlayer, this);
+                button.scale.setTo(0.3);
+
+
+                var football = this.game.add.sprite(500, 220, 'football');
+                football.scale.setTo(0.1);
+
+                game.physics.arcade.enable( [wr1, wr2, wr3, wr4, football] );
+                  // football.enableBody = true;
+                // football.physicsBodyType = Phaser.Physics.ARCADE;
+
+// =====================================movement==================================================================
+
+                function movePlayer(){
+
+                var tweenA = game.add.tween(wr1).to({x: '+200'}, 3000);
+                var tweenB = game.add.tween(wr2).to({x: '+200'}, 3000);
+                var tweenC = game.add.tween(wr3).to({x: '+200'}, 3000);
+
+
+                tweenA.start();
+                tweenB.start();
+                tweenC.start();
+
+                var tweenFootball = game.add.tween(football).to( {x: '+200', y: '-20'},500, "Linear", true, 2500);
+                tweenFootball.onComplete.add(logCoord, this); function logCoord() {
+                  console.log(football.body.x, football.body.y);
+
+
+
+                }
+
+
+                // console.log(football.body.x, football.body.y);
+
+
+                }
+                },
+
+//============================GameButtons===========================================================
+
+
+
+
+                update: function(){},
+              };
+
+
+
+
+
+
+            game.state.add('GameActionState', GameActionState);
+            game.state.start('GameActionState');
+            // game.state.add('HuddleState', HuddleState);
+            // game.state.start('HuddleState');
+
+
+
+    </script>
+
+</body>
+
+</html>
